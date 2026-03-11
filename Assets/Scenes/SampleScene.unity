@@ -6503,7 +6503,12 @@ MonoBehaviour:
   - {fileID: 1379221546}
   - {fileID: 1059406021}
   discarded: []
-  cardSlots: []
+  cardSlots:
+  - {fileID: 364546860}
+  - {fileID: 1502230569}
+  - {fileID: 822520093}
+  - {fileID: 1005970001}
+  - {fileID: 1181764457}
   availableCardSlots: 0101010101
   amountInDeck: {fileID: 1374299354}
   amountInDiscard: {fileID: 1940667736}

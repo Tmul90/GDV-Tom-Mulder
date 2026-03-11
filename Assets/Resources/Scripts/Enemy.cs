@@ -1,82 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     // Waypoint Variables
-    [SerializeField] int At = 0;
-    [SerializeField] Vector3 target;
-    List<Transform> Waypoints = new List<Transform>();
-    private int Path;
-    private Transform Coords;
+    [SerializeField] private int at = 0;
+    [SerializeField] private Vector3 target;
+    private readonly List<Transform> _waypoints = new();
+    private int _path;
+    private Transform _coords;
 
     // Type Variables
     private enum EnemyTypes{FootSoldier, Cavalry};
-    [SerializeField] EnemyTypes EnemyType;
-    private float TypeDamage;
+    [SerializeField] private EnemyTypes enemyType;
+    private float _typeDamage;
 
     // Enemy Variables
     private float _enemySpeed;
-    public Image healthBar;
     private float _enemyHealth;
-    private float _enemyStartHealth;
     private float _enemyEnergyDrop;
 
     private Stats _stats;
-    private bool _isDead = false;
+    private bool _isDead;
     
     private void Start()
     {
-        if (EnemyType == EnemyTypes.FootSoldier) FootSoldier();
-
-        else if (EnemyType == EnemyTypes.Cavalry) Cavalry();
+        switch (enemyType)
+        {
+            case EnemyTypes.FootSoldier:
+                FootSoldier();
+                break;
+            case EnemyTypes.Cavalry:
+                Cavalry();
+                break;
+        }
 
         PathFinder();
-
-        _enemyStartHealth = _enemyHealth;
 
         _stats = GameObject.FindGameObjectWithTag("Stats").GetComponent<Stats>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (transform.position != Waypoints[At].transform.position)
+        if (transform.position != _waypoints[at].transform.position)
         {
-            target = Waypoints[At].transform.position;
+            target = _waypoints[at].transform.position;
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _enemySpeed);
         }
-        else if (Waypoints.Count > At + 1) At++;
+        else if (_waypoints.Count > at + 1) at++;
 
         else AtEnd();
 
-        if (_enemyHealth < 0)
-        {
-            Destroy(gameObject);
-            Stats.EnemyKill(_enemyEnergyDrop);
-        } 
+        if (!(_enemyHealth < 0)) return;
+        
+        Destroy(gameObject);
+        Stats.EnemyKill(_enemyEnergyDrop);
     }
 
-    public void PathFinder()
+    private void PathFinder()
     {
-        Coords = GameObject.Find("Waypoints " + Path).transform;
-        for (int i = 0; i < Coords.childCount; i++) Waypoints.Add(Coords.GetChild(i).transform);
+        _coords = GameObject.Find("Waypoints " + _path).transform;
+        for (int i = 0; i < _coords.childCount; i++) _waypoints.Add(_coords.GetChild(i).transform);
     }
-    public void FootSoldier()
+
+    private void FootSoldier()
     {
         _enemySpeed = 3;
         _enemyHealth = 100;
-        Path = 0;
-        TypeDamage = 1;
+        _path = 0;
+        _typeDamage = 1;
         _enemyEnergyDrop = 2;
     }
-    public void Cavalry()
+
+    private void Cavalry()
     {
         _enemySpeed = 6;
         _enemyHealth = 50;
-        Path = 0;
-        TypeDamage = 2;
+        _path = 0;
+        _typeDamage = 2;
         _enemyEnergyDrop = 3;
     }
     public void Damage(float Damage)
@@ -85,13 +87,13 @@ public class Enemy : MonoBehaviour
         Debug.Log(_enemyHealth);
     }
 
-    public void AtEnd()
+    private void AtEnd()
     {
         if (_isDead) return;
 
 
         _isDead = true;
-        _stats.EnemyThrough(TypeDamage);
+        _stats.EnemyThrough(_typeDamage);
         Destroy(gameObject);
     }
 }

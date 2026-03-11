@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Serialization;
-using Util;
+using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
