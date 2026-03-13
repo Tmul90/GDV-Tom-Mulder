@@ -25,7 +25,7 @@ public class ProjectileScript : MonoBehaviour
         detector.OnEnemyHit += enemy =>
         {
             if (doesExplosion) { InstantiateExplosion(); }
-            else { enemy.gameObject.GetComponent<Enemy>().Damage(30); }
+            else { enemy.gameObject.GetComponent<Enemy>().TakeDamage(30); }
         };
         
         OnProjectileCreated?.Invoke(this);
@@ -34,7 +34,7 @@ public class ProjectileScript : MonoBehaviour
     private void InstantiateExplosion()
     {
         var enemies = Physics2D.OverlapCircleAll(transform.position, explosionRadius, LayerMask.GetMask("EnemyLayer"));
-        Array.ForEach(enemies, e => e.GetComponent<Enemy>().Damage(15));
+        Array.ForEach(enemies, enemy => enemy.GetComponent<Enemy>().TakeDamage(15));
         
         var explosion = Instantiate(FileUtils.LoadPrefab("ExplosionRadius"), transform.position, Quaternion.identity);
         Destroy(explosion, lifeTime);

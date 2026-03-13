@@ -1,15 +1,18 @@
-public class BombTower : TowerBase
+namespace Resources.Scripts.Towers
 {
-    protected override float Delay => 1f;
-
-    private void Start()
+    public class BombTower : TowerBase
     {
-        base.Start();
-        Launcher.OnProjectileFired += (projectile, target) =>
+        protected override float Delay => 1f;
+
+        private void Start()
         {
-            projectile.GetComponent<ProjectileScript>().doesExplosion = true;
-        };
-    }
+            base.Start();
+            Launcher.OnProjectileFired += (projectile, target) =>
+            {
+                projectile.GetComponent<ProjectileScript>().doesExplosion = true;
+            };
+        }
         
-    protected override void Shoot() { Launcher.Fire(RangeDetector.EnemiesInRange[0]); }
+        protected override void Shoot() { Launcher.Fire(RangeDetector.EnemiesInRange[0]); }
+    }
 }

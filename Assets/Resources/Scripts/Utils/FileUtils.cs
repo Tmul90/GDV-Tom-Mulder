@@ -4,11 +4,7 @@ public class FileUtils
 {
     public static GameObject LoadPrefab(string filename)
     {
-        var loadedPrefab = Resources.Load("Prefabs/" + filename, typeof(GameObject)) as GameObject;
-        if (loadedPrefab == null)
-        {
-            Debug.Log("Prefab " + filename + " not found");
-        }
-        return loadedPrefab;
+        var loadedPrefab = UnityEngine.Resources.Load("Prefabs/" + filename, typeof(GameObject)) as GameObject;
+        return !loadedPrefab ? null : loadedPrefab;
     }
 }

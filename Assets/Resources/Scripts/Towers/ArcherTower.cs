@@ -1,9 +1,12 @@
-public class ArcherTower : TowerBase
+namespace Resources.Scripts.Towers
 {
-    protected override float Delay => 1.2f;
-    
-    protected override void Shoot()
+    public class ArcherTower : TowerBase
     {
-        Launcher.Fire(RangeDetector.EnemiesInRange[0]);
+        protected override float Delay => 1.2f;
+    
+        protected override void Shoot()
+        {
+            Launcher.Fire(RangeDetector.EnemiesInRange[0]);
+        }
     }
 }

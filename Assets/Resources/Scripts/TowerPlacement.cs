@@ -35,7 +35,7 @@ public class TowerPlacement : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        if (statsScript.energy > CardCost)
+        if (Stats.Energy > CardCost)
         {
             Vector2 MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             transform.Translate(MousePosition);
@@ -47,7 +47,7 @@ public class TowerPlacement : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        if (statsScript.energy > CardCost)
+        if (Stats.Energy > CardCost)
         {
             Outline.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
         }
@@ -59,7 +59,7 @@ public class TowerPlacement : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (!(statsScript.energy > CardCost)) return;
+        if (!(Stats.Energy > CardCost)) return;
         
         if(canBePlayed == true)
         {

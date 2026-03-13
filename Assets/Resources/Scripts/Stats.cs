@@ -7,18 +7,23 @@ public class Stats : MonoBehaviour
 {
     // TODO split entire script into smaller scripts
     // TODO make energy manager
-    public float energy
+    public static float Energy
     {
         get => _energy;
         private set => _energy = value;
+    }
+
+    public float Lives
+    {
+        get => _lives;
+        private set => _lives = value;
     }
     
     [SerializeField] private TextMeshProUGUI textmeshproHealth;
     [SerializeField] private TextMeshProUGUI textmeshproEnergy;
     
     private static float _energy = 50f;
-    
-    private float _lives = 100;
+    private static float _lives = 100;
     
     // TODO create deck manager script move this into that
     [SerializeField] private List<TowerPlacement> deck = new List<TowerPlacement>();
@@ -48,11 +53,13 @@ public class Stats : MonoBehaviour
         amountInDiscardText = amountInDiscard.GetComponent<TextMeshProUGUI>();
         amountInDiscardText.text = discarded.Count.ToString();
         
-        textmeshproHealth.text = "Energy: " + energy.ToString();
+        textmeshproHealth.text = "Energy: " + Energy.ToString();
         // ------------------------------------------------------------------------------
     }
     private void Update()
     {
+        textmeshproHealth.text = "Health: " + _lives;
+        
         // TODO move to different script
         amountInDeckText.text = deck.Count.ToString();
         amountInDiscardText.text = discarded.Count.ToString();
@@ -60,19 +67,17 @@ public class Stats : MonoBehaviour
         // -----------------------------------------------------
         
         // TODO Make _energy MinMax<>
-        if (energy > 100)
+        if (Energy > 100)
         {
-            energy = 100;
+            Energy = 100;
         }
     }
 
-    public void EnemyThrough(float TypeDamage)
-    {
-        _lives -= TypeDamage;
-        // TODO move to different script
-        textmeshproHealth.text = "Health: " + _lives;
-        // -----------------------------------------------------
-    }
+
+    // TODO event
+    public static void TakeDamage(float damage) { _lives -= damage; }
+    
+    // TODO event
     public static void EnergyDeplete(float Cost) { _energy -= Cost; }
 
     public static void EnemyKill(float energyGain)
@@ -84,7 +89,7 @@ public class Stats : MonoBehaviour
         
     }
 
-    public static void ChangeEnergy(float EnergyMultiplier) { _energy *= EnergyMultiplier; }
+    public static void ChangeEnergy(float energyMultiplier) { _energy *= energyMultiplier; }
     
     public void DrawCard()
     {
