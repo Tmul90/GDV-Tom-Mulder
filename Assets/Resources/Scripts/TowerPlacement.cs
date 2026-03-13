@@ -16,7 +16,7 @@ public class TowerPlacement : MonoBehaviour
     public CardType Cardtype;
 
     // TODO SUPER ULTRA TEMPORARY
-    private DeckManager deckManager;
+    [SerializeField] private DeckManager deckManager;
 
     [SerializeField] GameObject Outline;
     [SerializeField] GameObject Tower;
@@ -74,17 +74,17 @@ public class TowerPlacement : MonoBehaviour
         
         if(canBePlayed)
         {
-            var pp = Instantiate(Tower);
-            pp.transform.position = transform.position;
+            var tower = Instantiate(Tower);
+            tower.transform.position = transform.position;
                 
             gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             gameObject.transform.position = originalPos;
-            deckManager.availableCardSlots[handIndex] = true;
-            deckManager.DrawCard();
+            DeckManager.Instance.availableCardSlots[handIndex] = true;
+            DeckManager.Instance.DrawCard();
             Stats.EnergyDeplete(CardCost);
-            Invoke("MoveToDiscard", 1f);
+            Invoke(nameof(MoveToDiscard), 1f);
         }
-        else { transform.position = deckManager.cardSlots[handIndex].transform.position; }
+        else { transform.position = DeckManager.Instance.cardSlots[handIndex].transform.position; }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -103,7 +103,7 @@ public class TowerPlacement : MonoBehaviour
 
     private void MoveToDiscard()
     {
-        deckManager.Discarded.Add(this);
+        DeckManager.Instance.Discarded.Add(this);
         gameObject.SetActive(false);
     }
     

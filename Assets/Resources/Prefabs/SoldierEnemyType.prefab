@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8274779406735728178}
   - component: {fileID: 7962586654193031758}
-  - component: {fileID: 367431032340507852}
   - component: {fileID: 1842909190117984608}
   - component: {fileID: -3119762450606582881}
   - component: {fileID: 1164332706246546103}
+  - component: {fileID: 4881360200775265798}
+  - component: {fileID: 8952669956178813992}
   m_Layer: 3
   m_Name: SoldierEnemyType
   m_TagString: Enemy
@@ -88,22 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &367431032340507852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7132082593063850699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd483ffbc6997a44d8b0d010d3eda7e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  At: 0
-  target: {x: 0, y: 0, z: 0}
-  EnemyType: 0
-  healthBar: {fileID: 0}
 --- !u!70 &1842909190117984608
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -157,3 +142,29 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &4881360200775265798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132082593063850699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4303dd32a6c51d84b8162756dc76ae3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8952669956178813992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132082593063850699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9a09ea5a8869a44a321fc7320cf624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  at: 0
+  _waypoints: []

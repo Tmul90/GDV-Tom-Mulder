@@ -10,7 +10,7 @@ public class EnemyPathfinder : MonoBehaviour
     [SerializeField] private int at;
 
     private float _speed;
-    private readonly List<Transform> _waypoints = new();
+    [SerializeField] private List<Transform> _waypoints = new();
     private int _path;
     
     private Stats _stats;
@@ -23,9 +23,9 @@ public class EnemyPathfinder : MonoBehaviour
             var target = _waypoints[at].transform.position;
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _speed);
         }
-        else if (_waypoints.Count > at + 1) at++;
+        else if (_waypoints.Count > at + 1) { at++; }
+        else { AtEnd?.Invoke(); }
         
-        AtEnd?.Invoke();
     }
 
     internal void PathFinder()

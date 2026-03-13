@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Resources.Scripts.Utils;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DeckManager : Singleton<DeckManager>
+public class DeckManager : MonoBehaviour
 {
+    public static DeckManager Instance { get; private set; }
     [SerializeField] private List<TowerPlacement> deck = new();
     [SerializeField] internal Transform[] cardSlots;
     [SerializeField] internal bool[] availableCardSlots;
@@ -16,7 +18,7 @@ public class DeckManager : Singleton<DeckManager>
     
     private Dictionary<TowerPlacement, int> _cardSlotMap;
     
-    internal readonly List<TowerPlacement> Discarded = new();
+    internal List<TowerPlacement> Discarded = new();
     
     
     // Planned class structure
@@ -44,7 +46,12 @@ public class DeckManager : Singleton<DeckManager>
         amountInDeckText.text = deck.Count.ToString();
         amountInDiscardText.text = Discarded.Count.ToString();
     }
-    
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Update()
     {
         // TODO move to UI manager script
@@ -59,7 +66,7 @@ public class DeckManager : Singleton<DeckManager>
         
         var randCard = deck[Random.Range(0, deck.Count)];
 
-        for (var i = 0; i < deck.Count; i++)
+        for (var i = 0; i < availableCardSlots.Length; i++)
         {
             if (availableCardSlots[i] != true) continue;
                 
