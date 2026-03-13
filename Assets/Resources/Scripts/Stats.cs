@@ -26,32 +26,16 @@ public class Stats : MonoBehaviour
     private static float _lives = 100;
     
     // TODO create deck manager script move this into that
-    [SerializeField] private List<TowerPlacement> deck = new List<TowerPlacement>();
-    public List<TowerPlacement> discarded = new List<TowerPlacement>();
-    public Transform[] cardSlots;
-    public bool[] availableCardSlots;
-    
-    [SerializeField] private GameObject amountInDeck;
-    TextMeshProUGUI amountInDeckText;
 
-    [SerializeField] private GameObject amountInDiscard;
-    TextMeshProUGUI amountInDiscardText;
     // ----------------------------------------------------
     private void Start()
     {
-        for (var i = 0; i < cardSlots.Length; i++)
-        {
-            DrawCard();
-        }
+
         
         // TODO there is no need for this to be inside of Stats move to other script
         textmeshproHealth.text = "Health: " + _lives.ToString();
 
-        amountInDeckText = amountInDeck.GetComponent<TextMeshProUGUI>();
-        amountInDeckText.text = deck.Count.ToString();
 
-        amountInDiscardText = amountInDiscard.GetComponent<TextMeshProUGUI>();
-        amountInDiscardText.text = discarded.Count.ToString();
         
         textmeshproHealth.text = "Energy: " + Energy.ToString();
         // ------------------------------------------------------------------------------
@@ -61,8 +45,7 @@ public class Stats : MonoBehaviour
         textmeshproHealth.text = "Health: " + _lives;
         
         // TODO move to different script
-        amountInDeckText.text = deck.Count.ToString();
-        amountInDiscardText.text = discarded.Count.ToString();
+
         textmeshproHealth.text = "Energy: " + _energy;
         // -----------------------------------------------------
         
@@ -90,32 +73,4 @@ public class Stats : MonoBehaviour
     }
 
     public static void ChangeEnergy(float energyMultiplier) { _energy *= energyMultiplier; }
-    
-    public void DrawCard()
-    {
-        if (deck.Count < 1) return;
-        
-        var randCard = deck[Random.Range(0, deck.Count)];
-
-        for (var i = 0; i < deck.Count; i++)
-        {
-            if (availableCardSlots[i] != true) continue;
-                
-            randCard.gameObject.SetActive(true);
-            randCard.handIndex = i;
-            randCard.transform.position = cardSlots[i].position;
-            availableCardSlots[i] = false;
-            deck.Remove(randCard);
-            return;
-        }
-    }
-
-    public void Shuffle()
-    {
-        if (discarded.Count < 1) return;
-        
-        discarded.ForEach(placement => { deck.Add(placement); });
-        
-        discarded.Clear();
-    }
 }

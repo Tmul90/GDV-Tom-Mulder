@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Util
+namespace Resources.Scripts.Utils
 {
+	// Class gemaakt op vooropleiding met toen hulp van leraren
 	public abstract class Singleton<T> : MonoBehaviour where T:Component{
 		private static T instance;
 		public  static T  Instance 
@@ -24,7 +25,7 @@ namespace Util
 			instance = GameObject.FindObjectOfType<T>() as T;
 			// if it's still null, see if we can instantiate it from the resources folder!
 			if (instance == null) {
-				GameObject obj = Resources.Load("Singletons/" + typeof(T).Name) as GameObject;
+				GameObject obj = UnityEngine.Resources.Load("Singletons/" + typeof(T).Name) as GameObject;
 				if (obj != null) {
 					GameObject go = GameObject.Instantiate(obj);
 					instance = go.GetComponent<T>();
