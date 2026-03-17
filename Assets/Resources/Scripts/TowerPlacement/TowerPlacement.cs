@@ -13,7 +13,6 @@ public class TowerPlacement : MonoBehaviour
     private bool _isDragging;
 
     private TowerPreview _activeTowerPreview;
-
     private TowerPlacementValidator TowerValidator { get; set; }
 
     private void Awake()
@@ -32,7 +31,7 @@ public class TowerPlacement : MonoBehaviour
     
     private bool CanPlace => TowerValidator is not null 
                              && TowerValidator.IsValid 
-                             && Stats.Energy > cardData.energyCost;
+                             && Stats.Instance.GetEnergy() > cardData.energyMultiplier;
 
     private void OnMouseDrag()
     {
@@ -67,7 +66,7 @@ public class TowerPlacement : MonoBehaviour
     {
         if (_isDragging) return;
         
-        var canAfford = Stats.Energy > cardData.energyCost;
+        var canAfford = Stats.Instance.GetEnergy() > cardData.energyMultiplier;
         
         _spriteRenderer.color = canAfford ? new Color(1f, 1f, 0f, 1f) : new Color(1f, 0f, 0f, 1f);
     }
@@ -89,7 +88,7 @@ public class TowerPlacement : MonoBehaviour
         _spriteRenderer.color = Color.white;
         DeckManager.Instance.AvailableCardSlots[handIndex] = true;
         DeckManager.Instance.DrawCard();
-        Stats.EnergyDeplete(cardData.energyCost);
+        Stats.Instance.EnergyDeplete(cardData.energyMultiplier);
         Invoke(nameof(MoveToDiscard), 1f);
     }
     

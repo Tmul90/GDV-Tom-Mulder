@@ -33,7 +33,7 @@ public abstract class Enemy : MonoBehaviour
         
         _isDead = true;
         Destroy(gameObject);
-        Stats.EnemyKill(EnergyDrop);
+        Stats.Instance.EnemyKill(EnergyDrop);
     }
 
     public void AtEnd()

@@ -6,6 +6,6 @@ public class CardData : ScriptableObject
 {
     public TowerBase towerPrefab;
     public Sprite cardArt;
-    public float energyCost;
+    public float energyMultiplier;
     public string cardName;
 }

@@ -16,10 +16,10 @@ public class ProjectileLauncher : MonoBehaviour
 
     public void Fire(GameObject target)
     {
+        onProjectileFired?.Invoke();
+        
         _projectilePrefab = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
         _projectilePrefab.GetComponent<ProjectileScript>().curTarget = target;
-        
-        onProjectileFired?.Invoke();
         
         Destroy(_projectilePrefab, LifeTime);
     }

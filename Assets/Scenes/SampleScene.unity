@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 271638267}
   - component: {fileID: 271638265}
   - component: {fileID: 271638264}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ArcherCard 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 299550226}
   - component: {fileID: 299550228}
   - component: {fileID: 299550229}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BombCard 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1665,7 +1665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851135768}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: -------- Managers --------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1682,9 +1682,7 @@ Transform:
   m_LocalPosition: {x: -1.2182343, y: -0.28718096, z: -0.008540571}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1686040698}
-  - {fileID: 1656970853}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1818,7 +1816,7 @@ GameObject:
   - component: {fileID: 981275592}
   - component: {fileID: 981275590}
   - component: {fileID: 981275589}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ArcherCard 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1992,7 +1990,7 @@ GameObject:
   - component: {fileID: 1059406021}
   - component: {fileID: 1059406023}
   - component: {fileID: 1059406024}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BombCard 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2135,7 +2133,7 @@ GameObject:
   - component: {fileID: 1101015761}
   - component: {fileID: 1101015763}
   - component: {fileID: 1101015764}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BombCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3032,7 +3030,7 @@ GameObject:
   - component: {fileID: 1379221546}
   - component: {fileID: 1379221548}
   - component: {fileID: 1379221549}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BombCard 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3878,6 +3876,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1638104906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638104907}
+  m_Layer: 0
+  m_Name: --------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1638104907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638104906}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2182343, y: -0.28718096, z: -0.008540571}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1656970852
 GameObject:
   m_ObjectHideFlags: 0
@@ -3903,13 +3932,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1656970852}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.2182343, y: -0.28718096, z: -0.008540571}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 851135768}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1656970854
 MonoBehaviour:
@@ -4065,6 +4094,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1686040698}
   - component: {fileID: 1686040697}
+  - component: {fileID: 1686040699}
   m_Layer: 0
   m_Name: Stats
   m_TagString: Stats
@@ -4084,8 +4114,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c652f4c5eefc5b344a77ee29d3fa867b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textmeshproHealth: {fileID: 611549676}
-  textmeshproEnergy: {fileID: 1574664706}
+  onHealthChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1686040699}
+        m_TargetAssemblyTypeName: StatsUIManager, Assembly-CSharp
+        m_MethodName: UpdateHealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onEnergyChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1686040699}
+        m_TargetAssemblyTypeName: StatsUIManager, Assembly-CSharp
+        m_MethodName: UpdateEnergy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1686040698
 Transform:
   m_ObjectHideFlags: 0
@@ -4094,13 +4152,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686040696}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2182343, y: 0.28718096, z: 0.008540571}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 851135768}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1686040699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686040696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430c6bc6b09042e42a643a550c657709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthText: {fileID: 611549676}
+  energyText: {fileID: 1574664706}
 --- !u!1 &1698809039
 GameObject:
   m_ObjectHideFlags: 0
@@ -4249,7 +4321,7 @@ GameObject:
   - component: {fileID: 1708806017}
   - component: {fileID: 1708806018}
   - component: {fileID: 1708806020}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ArcherCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4392,7 +4464,7 @@ GameObject:
   - component: {fileID: 1768187027}
   - component: {fileID: 1768187029}
   - component: {fileID: 1768187028}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ArcherCard 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

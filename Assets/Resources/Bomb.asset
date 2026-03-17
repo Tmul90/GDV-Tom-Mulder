@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerPrefab: {fileID: 7206085691374997181, guid: cc3268db8fa14a0499a469e23ca04077, type: 3}
   cardArt: {fileID: 21300000, guid: 0c077552e02ebfb498013c09a582ef54, type: 3}
-  energyCost: 10
+  energyMultiplier: 0.9
   cardName: Bomb
