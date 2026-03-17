@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1836627920057110037}
   - component: {fileID: 1836627920057110036}
-  - component: {fileID: 1836627920057110039}
   - component: {fileID: 1836627920057110038}
+  - component: {fileID: 1836627920057110039}
   - component: {fileID: 8180925343682932295}
   - component: {fileID: 5460346056832599427}
+  - component: {fileID: 1163918063838449879}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Tower
@@ -88,18 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1836627920057110039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836627920057110035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 669c9a47c3e91984c8224e547bfa523e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &1836627920057110038
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -116,6 +105,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 7
+--- !u!114 &1836627920057110039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836627920057110035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669c9a47c3e91984c8224e547bfa523e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8180925343682932295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,3 +141,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28e0ca5a554799644b8c673b0740cca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onProjectileFired:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1163918063838449879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836627920057110035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d97cb06d232187d40a661ab8770b6cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelRenderer: {fileID: 1836627920057110036}
+  outlineSize: 1.1

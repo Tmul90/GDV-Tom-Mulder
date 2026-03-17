@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Dictionary<string, CardData> _deckDictDict = new();
 
-    // Update is called once per frame
-    void Update()
+    public Dictionary<string, CardData> DeckDict
     {
-        
+        get => _deckDictDict; 
+        set => _deckDictDict = value;
     }
 }

@@ -4,6 +4,7 @@ namespace Resources.Scripts.Towers
 {
     [RequireComponent(typeof(EnemyRangeDetector))]
     [RequireComponent(typeof(ProjectileLauncher))]
+    [RequireComponent(typeof(TowerPreview))]
     public abstract class TowerBase : MonoBehaviour
     {
         protected EnemyRangeDetector RangeDetector { get; private set; }

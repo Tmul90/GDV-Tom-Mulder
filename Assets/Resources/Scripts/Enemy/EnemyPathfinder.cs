@@ -2,35 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyPathfinder : MonoBehaviour
 {
-    public event Action AtEnd;
+    [SerializeField] private UnityEvent atEnd;
     
-    [SerializeField] private int at;
-
+    [SerializeField] private List<Transform> waypoints = new();
+    
+    private int _at;
     private float _speed;
-    [SerializeField] private List<Transform> _waypoints = new();
     private int _path;
-    
     private Stats _stats;
-
 
     private void Update()
     {
-        if (transform.position != _waypoints[at].transform.position)
+        if (transform.position != waypoints[_at].transform.position)
         {
-            var target = _waypoints[at].transform.position;
+            var target = waypoints[_at].transform.position;
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _speed);
         }
-        else if (_waypoints.Count > at + 1) { at++; }
-        else { AtEnd?.Invoke(); }
+        else if (waypoints.Count > _at + 1) { _at++; }
+        else { atEnd?.Invoke(); }
         
     }
 
     internal void PathFinder()
     {
         var coords = GameObject.Find("Waypoints " + _path).transform;
-        for (var i = 0; i < coords.childCount; i++) _waypoints.Add(coords.GetChild(i).transform);
+        for (var i = 0; i < coords.childCount; i++) waypoints.Add(coords.GetChild(i).transform);
     }
+    
+    internal void SetPath(int path) => _path = path;
+    
+    internal void SetSpeed(float speed) => _speed = speed;
 }

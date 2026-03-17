@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 6078020494608467854}
   - component: {fileID: 6078020494608467852}
   - component: {fileID: 8609164940633224543}
+  - component: {fileID: 8660003583029512900}
+  - component: {fileID: 6693629958314630338}
+  - component: {fileID: 4504010290908313160}
   m_Layer: 0
   m_Name: EnergyTower
   m_TagString: Tower
@@ -114,4 +117,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8323edec12c3945b4d303802c57b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEnemiesInRange: []
+--- !u!114 &8660003583029512900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078020494608467849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3471b87b32cdaa242ae178bbdb30b9f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6693629958314630338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078020494608467849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e0ca5a554799644b8c673b0740cca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onProjectileFired:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4504010290908313160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078020494608467849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d97cb06d232187d40a661ab8770b6cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelRenderer: {fileID: 6078020494608467854}
+  outlineSize: 1.1

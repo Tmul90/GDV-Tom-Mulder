@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46305b819750f074b93f00bc4bcf204e, type: 3}
+  m_Name: Bomb
+  m_EditorClassIdentifier: 
+  towerPrefab: {fileID: 7206085691374997181, guid: cc3268db8fa14a0499a469e23ca04077, type: 3}
+  cardArt: {fileID: 21300000, guid: 0c077552e02ebfb498013c09a582ef54, type: 3}
+  energyCost: 10
+  cardName: Bomb

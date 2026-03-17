@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
+    public static Stats Instance { get; private set; }
+    
     // TODO split entire script into smaller scripts
     // TODO make energy manager
     public static float Energy
@@ -30,8 +33,6 @@ public class Stats : MonoBehaviour
     // ----------------------------------------------------
     private void Start()
     {
-
-        
         // TODO there is no need for this to be inside of Stats move to other script
         textmeshproHealth.text = "Health: " + _lives.ToString();
 
@@ -40,6 +41,9 @@ public class Stats : MonoBehaviour
         textmeshproHealth.text = "Energy: " + Energy.ToString();
         // ------------------------------------------------------------------------------
     }
+
+    private void Awake() { Instance = this; }
+
     private void Update()
     {
         textmeshproHealth.text = "Health: " + _lives;
@@ -58,7 +62,7 @@ public class Stats : MonoBehaviour
 
 
     // TODO event
-    public static void TakeDamage(float damage) { _lives -= damage; }
+    public void TakeDamage(float damage) { _lives -= damage; }
     
     // TODO event
     public static void EnergyDeplete(float Cost) { _energy -= Cost; }

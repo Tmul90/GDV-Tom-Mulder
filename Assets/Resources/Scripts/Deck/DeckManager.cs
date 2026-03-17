@@ -1,23 +1,26 @@
 using System;
 using System.Collections.Generic;
-using Resources.Scripts.Utils;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(DeckUIManager))]
 public class DeckManager : MonoBehaviour
 {
     public static DeckManager Instance { get; private set; }
-    [SerializeField] private List<TowerPlacement> deck = new();
-    [SerializeField] internal Transform[] cardSlots;
-    [SerializeField] internal bool[] availableCardSlots;
+
+    [SerializeField] private UnityEvent onInteractCard;
     
-    // TEMP
-    [SerializeField] private TextMeshProUGUI amountInDeckText;
-    [SerializeField] private TextMeshProUGUI amountInDiscardText;
+    [SerializeField] internal List<TowerPlacement> deck = new();
+    [SerializeField] internal Transform[] cardSlots;
     
     private Dictionary<TowerPlacement, int> _cardSlotMap;
+
+    protected DeckUIManager UIManager;
     
+    internal bool[] AvailableCardSlots;
     internal List<TowerPlacement> Discarded = new();
     
     
@@ -38,26 +41,24 @@ public class DeckManager : MonoBehaviour
     
     // TowerPlacement now has the same function as what i plan Card on having
     // I plan on splitting TowerPlacement into Card and CardPlacement classes
+    private void Awake()
+    {
+        Instance = this;
+        
+        UIManager = GetComponent<DeckUIManager>();
+        
+        AvailableCardSlots = new bool[cardSlots.Length];
+        Array.Fill(AvailableCardSlots, true);
+    }
     
     private void Start()
     {
         for (var i = 0; i < cardSlots.Length; i++) { DrawCard(); }
         
-        amountInDeckText.text = deck.Count.ToString();
-        amountInDiscardText.text = Discarded.Count.ToString();
+        UIManager.ChangeDeckCount(deck.Count);
+        UIManager.ChangeDiscardCount(Discarded.Count);
     }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    private void Update()
-    {
-        // TODO move to UI manager script
-        amountInDeckText.text = deck.Count.ToString();
-        amountInDiscardText.text = Discarded.Count.ToString();
-    }
     
     // TODO Find first available slot first then draw a random card.
     public void DrawCard()
@@ -66,17 +67,24 @@ public class DeckManager : MonoBehaviour
         
         var randCard = deck[Random.Range(0, deck.Count)];
 
-        for (var i = 0; i < availableCardSlots.Length; i++)
+        for (var i = 0; i < AvailableCardSlots.Length; i++)
         {
-            if (availableCardSlots[i] != true) continue;
+            if (AvailableCardSlots[i] != true) continue;
                 
             randCard.gameObject.SetActive(true);
             randCard.handIndex = i;
             randCard.transform.position = cardSlots[i].position;
-            availableCardSlots[i] = false;
+            AvailableCardSlots[i] = false;
             deck.Remove(randCard);
+            UIManager.ChangeDeckCount(deck.Count);
             return;
         }
+    }
+
+    public void AddToDiscard(TowerPlacement card)
+    {
+        Discarded.Add(card); 
+        UIManager.ChangeDiscardCount(Discarded.Count);
     }
 
     // TODO Fisher-Yates shuffle

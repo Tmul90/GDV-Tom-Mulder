@@ -1,61 +1,48 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(EnemyPathfinder))]
 public abstract class Enemy : MonoBehaviour
 {
-    public event Action<float> IsEnemyTrough;
-    protected EnemyPathfinder EnemyPathfinder { get; private set; }
-
+    [SerializeField] private UnityEvent<float> isEnemyTrough;
     protected abstract float Damage { get; }
+    protected abstract float Speed { get; }
+    protected abstract float MaxHealth { get; }
+    protected abstract float EnergyDrop { get; }
+    protected abstract int Path { get; }
     
-    protected abstract float Speed { get;  }
-    protected abstract float Health { get; set; }
-    protected abstract float EnergyDrop { get;  }
-
-    internal float _health;
+    private float _currentHealth;
+    private bool _isDead;
     
     private void Start()
     {
-        EnemyPathfinder.AtEnd += AtEnd;
-        EnemyPathfinder.PathFinder();
+        _currentHealth = MaxHealth;
+
+        var pathfinder = GetComponent<EnemyPathfinder>();
+        pathfinder.SetSpeed(Speed);
+        pathfinder.SetPath(Path);
+        pathfinder.PathFinder();
     }
 
-    private void Update()
+    public void TakeDamage(float damageTaken)
     {
-        // TODO event
-        if (!(Health < 0)) return;
+        _currentHealth -= damageTaken;
+        print(_currentHealth);
+        if(_currentHealth >= 0) return;
         
-        Destroy(this);
+        _isDead = true;
+        Destroy(gameObject);
         Stats.EnemyKill(EnergyDrop);
-        // --------------------------------
     }
-    
-    protected internal void TakeDamage(float damageTaken) { Health -= damageTaken; }
 
-    protected virtual void AtEnd()
+    public void AtEnd()
     {
-        Destroy(this);
+        if(_isDead) return;
+        _isDead = true;
         
-        // TODO move into the IsEnemyThrough action
-        /*_stats.EnemyThrough(_typeDamage);*/
-        Stats.TakeDamage(Damage);
-        IsEnemyTrough?.Invoke(Damage);
+        Stats.Instance.TakeDamage(Damage);
+        isEnemyTrough?.Invoke(Damage);
+        Destroy(gameObject);
     }
-    
-    /*private void FootSoldier()
-    {
-        _enemySpeed = 3;
-        _enemyHealth = 100;
-        _damage = 1;
-        _enemyEnergyDrop = 2;
-    }
-
-    private void Cavalry()
-    {
-        _enemySpeed = 6;
-        _enemyHealth = 50;
-        _damage = 2;
-        _enemyEnergyDrop = 3;
-    }*/
 }
