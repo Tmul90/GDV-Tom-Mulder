@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Card : MonoBehaviour
 {
-    public CardData Data { get; private set; }
+    internal CardData Data { get; private set; }
 
-    public event Action<Card> OnCardPlayed;
-    public event Action<Card> OnCardDiscarded;
+    internal event Action<Card> OnCardPlayed;
+    internal event Action<Card> OnCardDiscarded;
     
     private SpriteRenderer _spriteRenderer;
-    private TowerPlacementValidator _validator;
+    private TowerPlacementValidator _towerPlacementValidator;
     private TowerPreview _activeTowerPreview;
 
     private Camera _camera;
@@ -20,23 +20,21 @@ public class Card : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _validator = GetComponent<TowerPlacementValidator>();
+        _towerPlacementValidator = GetComponent<TowerPlacementValidator>();
         _camera = Camera.main;
     }
     
     public void Initialize(CardData data)
     {
         Data = data;
-
-        if (_spriteRenderer is null)
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
+        
+        // According to Rider this is the same as if (_spriteRenderer == null) thats cool to know
+        _spriteRenderer ??= GetComponent<SpriteRenderer>();
 
         _spriteRenderer.sprite = data.cardArt;
     }
 
-    private bool CanPlaceTower => _validator != null && _validator.IsValid && Stats.Instance.GetEnergy() > Data.energyMultiplier;
+    private bool CanPlaceTower => _towerPlacementValidator != null && _towerPlacementValidator.IsValid && Stats.Instance.GetEnergy() > Data.energyMultiplier;
     
     private void OnMouseDown()
     {
@@ -59,7 +57,7 @@ public class Card : MonoBehaviour
         var previewPosition = new Vector3(mousePosition.x, mousePosition.y, -1f);
         
         _activeTowerPreview.transform.position = previewPosition;
-        _validator.transform.position = previewPosition;
+        _towerPlacementValidator.transform.position = previewPosition;
         
         _activeTowerPreview.UpdateState(CanPlaceTower);
         _isDragging = true;
