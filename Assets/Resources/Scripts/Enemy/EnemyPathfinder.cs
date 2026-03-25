@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class EnemyPathfinder : MonoBehaviour
 {
     [SerializeField] private UnityEvent atEnd;
-    
     [SerializeField] private List<Transform> waypoints = new();
     
     private int _at;
@@ -22,8 +21,14 @@ public class EnemyPathfinder : MonoBehaviour
             var target = waypoints[_at].transform.position;
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _speed);
         }
-        else if (waypoints.Count > _at + 1) { _at++; }
-        else { atEnd?.Invoke(); }
+        else if (waypoints.Count > _at + 1)
+        {
+            _at++;
+        }
+        else
+        {
+            atEnd?.Invoke();
+        }
         
     }
 
@@ -33,7 +38,13 @@ public class EnemyPathfinder : MonoBehaviour
         for (var i = 0; i < coords.childCount; i++) waypoints.Add(coords.GetChild(i).transform);
     }
     
-    internal void SetPath(int path) => _path = path;
+    internal void SetPath(int path)
+    {
+        _path = path;
+    }
     
-    internal void SetSpeed(float speed) => _speed = speed;
+    internal void SetSpeed(float speed)
+    {
+        _speed = speed;
+    }
 }

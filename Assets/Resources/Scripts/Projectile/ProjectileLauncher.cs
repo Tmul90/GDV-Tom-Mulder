@@ -12,17 +12,20 @@ public class ProjectileLauncher : MonoBehaviour
     private const float LifeTime = 0.5f;
     private GameObject _projectilePrefab;
 
-    private void Start() { _bulletPrefab = FileUtils.LoadPrefab("Bullet"); }
+    private void Start()
+    {
+        _bulletPrefab = FileUtils.LoadPrefab("Bullet");
+    }
 
-    public void Fire(GameObject target)
+    internal void Fire(GameObject target, bool doesExplosion = false)
     {
         onProjectileFired?.Invoke();
         
         _projectilePrefab = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
-        _projectilePrefab.GetComponent<ProjectileScript>().curTarget = target;
+        var projectile = _projectilePrefab.GetComponent<ProjectileScript>();
+        projectile.curTarget = target;
+        projectile.doesExplosion = doesExplosion;
         
         Destroy(_projectilePrefab, LifeTime);
     }
-
-    public void DoesExplosion(bool doesExplosion) { _projectilePrefab.GetComponent<ProjectileScript>().doesExplosion = doesExplosion; }
 }

@@ -28,6 +28,9 @@ namespace Resources.Scripts.Towers
             _nextShot = Time.time + Delay;
         }
 
+        /// <summary>
+        /// Called to shoot a projectile in the case of the BOMB(oclaat) tower an explosive projectile
+        /// </summary>
         protected abstract void Shoot();
     }
 }

@@ -24,13 +24,24 @@ public class ProjectileScript : MonoBehaviour
         var detector = GetComponent<ProjectileRangeDetector>();
         detector.OnEnemyHit += enemy =>
         {
-            if (doesExplosion) { InstantiateExplosion(); }
-            else { enemy.gameObject.GetComponent<Enemy>().TakeDamage(30); }
+            if (doesExplosion)
+            {
+                InstantiateExplosion();
+            }
+            else
+            {
+                enemy.gameObject.GetComponent<Enemy>().TakeDamage(30);
+            }
         };
         
         OnProjectileCreated?.Invoke(this);
     }
-    private void Update() { transform.Translate(_projDir * speed * Time.deltaTime); }
+
+    private void Update()
+    {
+        transform.Translate(_projDir * speed * Time.deltaTime);
+    }
+    
     private void InstantiateExplosion()
     {
         var enemies = Physics2D.OverlapCircleAll(transform.position, explosionRadius, LayerMask.GetMask("EnemyLayer"));

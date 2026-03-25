@@ -2,62 +2,71 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(TowerPlacementValidator))]
-public class TowerPlacement : MonoBehaviour
+[RequireComponent(typeof(BoxCollider2D))]
+public class Card : MonoBehaviour
 {
-    // No need to stay here move to HandManager
-    public int handIndex;
+    public CardData Data { get; private set; }
 
     public event Action<Card> OnCardPlayed;
     public event Action<Card> OnCardDiscarded;
     
-    // Need to be managed around the deck system
-    [SerializeField] private CardData cardData;
-    
     private SpriteRenderer _spriteRenderer;
-    private bool _isDragging;
-
+    private TowerPlacementValidator _validator;
     private TowerPreview _activeTowerPreview;
-    private TowerPlacementValidator TowerValidator { get; set; }
 
+    private Camera _camera;
+    private bool _isDragging;
+    
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        TowerValidator = GetComponent<TowerPlacementValidator>();
+        _validator = GetComponent<TowerPlacementValidator>();
+        _camera = Camera.main;
+    }
+    
+    public void Initialize(CardData data)
+    {
+        Data = data;
+
+        if (_spriteRenderer is null)
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        _spriteRenderer.sprite = data.cardArt;
     }
 
+    private bool CanPlaceTower => _validator != null && _validator.IsValid && Stats.Instance.GetEnergy() > Data.energyMultiplier;
+    
     private void OnMouseDown()
     {
-        var previewObject = Instantiate(cardData.towerPrefab);
+        var previewObject = Instantiate(Data.towerPrefab);
         _activeTowerPreview = previewObject.GetComponent<TowerPreview>();
         
         _spriteRenderer.enabled = false;
     }
-    
-    private bool CanPlace => TowerValidator is not null 
-                             && TowerValidator.IsValid 
-                             && Stats.Instance.GetEnergy() > cardData.energyMultiplier;
 
     private void OnMouseDrag()
     {
         if (!Camera.main) return;
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var previewPosition = new Vector3(mousePosition.x, mousePosition.y, -1f);
-
-        _isDragging = true;
+        var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
         
-        mousePosition.z = 0f;
         transform.position = mousePosition;
-
+        
         if (_activeTowerPreview is null) return;
         
-        _activeTowerPreview.transform.position = previewPosition;
+        var previewPosition = new Vector3(mousePosition.x, mousePosition.y, -1f);
         
-        TowerValidator.transform.position = previewPosition;
-        _activeTowerPreview.UpdateState(CanPlace);
+        _activeTowerPreview.transform.position = previewPosition;
+        _validator.transform.position = previewPosition;
+        
+        _activeTowerPreview.UpdateState(CanPlaceTower);
+        _isDragging = true;
     }
     private void OnMouseUp()
     {
-        var shouldPlace = CanPlace;
+        var shouldPlace = CanPlaceTower;
         
         _isDragging = false;
 
@@ -68,7 +77,7 @@ public class TowerPlacement : MonoBehaviour
 
         if (!shouldPlace)
         {
-            ReturnToHand(); 
+            OnCardDiscarded?.Invoke(this);
             return;
         }
 
@@ -78,9 +87,9 @@ public class TowerPlacement : MonoBehaviour
     {
         if (_isDragging) return;
         
-        var canAfford = Stats.Instance.GetEnergy() > cardData.energyMultiplier;
+        var canAfford = Stats.Instance.GetEnergy() > Data.energyMultiplier;
         
-        _spriteRenderer.color = canAfford ? new Color(1f, 1f, 0f, 1f) : new Color(1f, 0f, 0f, 1f);
+        _spriteRenderer.color = canAfford ? Color.yellow : Color.red;
     }
 
     private void OnMouseExit()
@@ -91,30 +100,18 @@ public class TowerPlacement : MonoBehaviour
 
     private void PlaceTower()
     {
-        if (!Camera.main) return;
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var tower = Instantiate(cardData.towerPrefab, new Vector3(mousePosition.x, mousePosition.y, -1f), Quaternion.identity);
+        var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        
+        var tower = Instantiate(
+            Data.towerPrefab, 
+            new Vector3(mousePosition.x, mousePosition.y, -1f), 
+            Quaternion.identity
+            );
         
         tower.GetComponent<TowerPreview>()?.SetPlaced();
+
+        Stats.Instance.EnergyDeplete(Data.energyMultiplier);
         
-        _spriteRenderer.color = Color.white;
-
-        Stats.Instance.EnergyDeplete(cardData.energyMultiplier);
         OnCardPlayed?.Invoke(this);
-    }
-    
-    private void ReturnToHand()
-    {
-        _spriteRenderer.enabled = true;
-        // TODO: link to event
-        transform.position = DeckManager.Instance.cardSlots[handIndex].transform.position;
-        _spriteRenderer.color = Color.white;
-    }
-
-    private void MoveToDiscard()
-    {
-        // TODO: link to event
-        OnCardDiscarded?.Invoke(this);
-        gameObject.SetActive(false);
     }
 }

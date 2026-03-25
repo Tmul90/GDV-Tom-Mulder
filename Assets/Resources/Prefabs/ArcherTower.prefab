@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8180925343682932295}
   - component: {fileID: 5460346056832599427}
   - component: {fileID: 1163918063838449879}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ArcherTower
   m_TagString: Tower
   m_Icon: {fileID: 0}

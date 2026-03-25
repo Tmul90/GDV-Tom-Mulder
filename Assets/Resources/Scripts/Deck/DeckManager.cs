@@ -5,25 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
-
-[RequireComponent(typeof(DeckUIManager))]
-public class DeckManager : MonoBehaviour
-{
-    public static DeckManager Instance { get; private set; }
-
-    [SerializeField] private UnityEvent onInteractCard;
-    
-    [SerializeField] internal List<TowerPlacement> deck = new();
-    [SerializeField] internal Transform[] cardSlots;
-    
-    private Dictionary<TowerPlacement, int> _cardSlotMap;
-
-    protected DeckUIManager UIManager;
-    
-    internal bool[] AvailableCardSlots;
-    internal List<TowerPlacement> Discarded = new();
-    
-    
     // Planned class structure
     
     // Deck class (pure data)
@@ -41,60 +22,82 @@ public class DeckManager : MonoBehaviour
     
     // TowerPlacement now has the same function as what i plan Card on having
     // I plan on splitting TowerPlacement into Card and CardPlacement classes
-    private void Awake()
-    {
-        Instance = this;
-        
-        UIManager = GetComponent<DeckUIManager>();
-        
-        AvailableCardSlots = new bool[cardSlots.Length];
-        Array.Fill(AvailableCardSlots, true);
-    }
+
+[RequireComponent(typeof(DeckUIManager))]
+public class DeckManager : MonoBehaviour
+{
+    [Header("Setup")]
+    [SerializeField] private List<CardData> startingDeck;
+    [SerializeField] private Card cardPrefab;
+    [SerializeField] private Transform[] cardSlots;
+    
+    private Deck _deck;
+    private Card[] _activeCards;
     
     private void Start()
     {
-        for (var i = 0; i < cardSlots.Length; i++) { DrawCard(); }
-        
-        UIManager.ChangeDeckCount(deck.Count);
-        UIManager.ChangeDiscardCount(Discarded.Count);
-    }
+        _deck = new Deck(startingDeck);
+        _activeCards = new Card[startingDeck.Count];
 
-    
-    // TODO Find first available slot first then draw a random card.
-    public void DrawCard()
-    {
-        if (deck.Count < 1) return;
-        
-        var randCard = deck[Random.Range(0, deck.Count)];
-
-        for (var i = 0; i < AvailableCardSlots.Length; i++)
+        for (var i = 0; i < cardSlots.Length; i++)
         {
-            if (AvailableCardSlots[i] != true) continue;
-                
-            randCard.gameObject.SetActive(true);
-            randCard.handIndex = i;
-            randCard.transform.position = cardSlots[i].position;
-            AvailableCardSlots[i] = false;
-            deck.Remove(randCard);
-            UIManager.ChangeDeckCount(deck.Count);
-            return;
+            DrawToSlot(i);
         }
     }
-
-    public void AddToDiscard(TowerPlacement card)
+    
+    private void DrawToSlot(int index)
     {
-        Discarded.Add(card); 
-        UIManager.ChangeDiscardCount(Discarded.Count);
+        var data = _deck.DrawCard();
+        if (data is null)
+        {
+            Debug.LogWarning("No card drawn!");
+            return;
+        }
+        
+        Debug.Log($"Drawing card: {data.cardName}");
+        var card = Instantiate(cardPrefab, cardSlots[index]);
+        card.transform.position = cardSlots[index].position;
+        
+        card.Initialize(data);
+
+        card.OnCardPlayed += HandleCardPlayed;
+        card.OnCardDiscarded += HandleCardDiscarded;
+        
+        _activeCards[index] = card;
     }
 
-    // TODO Fisher-Yates shuffle
-    // https://en.wikipedia.org/wiki/Fisher–Yates_shuffle
-    public void Shuffle()
+    private void HandleCardPlayed(Card card)
     {
-        if (Discarded.Count < 1) return;
+        var index = GetCardIndex(card);
         
-        Discarded.ForEach(placement => { deck.Add(placement); });
+        _deck.AddToDiscard(card.Data);
+
+        RemoveCard(card, index);
         
-        Discarded.Clear();
+        DrawToSlot(index);
     }
+
+    private void HandleCardDiscarded(Card card)
+    {
+        var index = GetCardIndex(card);
+        
+        // return card to slot instead of discarding
+        card.transform.position = cardSlots[index].position;
+    }
+
+    private int GetCardIndex(Card card)
+    {
+        return Array.IndexOf(_activeCards, card);
+    }
+
+    private void RemoveCard(Card card, int index)
+    {
+        card.OnCardPlayed -= HandleCardPlayed;
+        card.OnCardDiscarded -= HandleCardDiscarded;
+        
+        _activeCards[index] = null;
+        
+        Destroy(card.gameObject);
+    }
+    
 }

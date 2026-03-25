@@ -33,13 +33,26 @@ public class Stats : MonoBehaviour
             _energy = 100;
         }
     }
-    
-    public float GetEnergy() { return _energy; }
-    public float GetHealth() { return _health; }
-    
-    public void TakeDamage(float damage) { _health -= damage; onHealthChanged.Invoke(); }
-    
-    public void EnergyDeplete(float Cost) { _energy -= Cost; onEnergyChanged.Invoke(); }
+
+    public float GetEnergy()
+    {
+        return _energy;
+    }
+
+    public float GetHealth()
+    {
+        return _health;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        _health -= damage; onHealthChanged.Invoke();
+    }
+
+    public void EnergyDeplete(float Cost)
+    {
+        _energy -= Cost; onEnergyChanged.Invoke();
+    }
 
     public void EnemyKill(float energyGain)
     {
