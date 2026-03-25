@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(TowerPlacementValidator))]
@@ -5,6 +6,9 @@ public class TowerPlacement : MonoBehaviour
 {
     // No need to stay here move to HandManager
     public int handIndex;
+
+    public event Action<Card> OnCardPlayed;
+    public event Action<Card> OnCardDiscarded;
     
     // Need to be managed around the deck system
     [SerializeField] private CardData cardData;
@@ -35,16 +39,17 @@ public class TowerPlacement : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        _isDragging = true;
-
         if (!Camera.main) return;
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var previewPosition = new Vector3(mousePosition.x, mousePosition.y, -1f);
+
+        _isDragging = true;
+        
         mousePosition.z = 0f;
         transform.position = mousePosition;
 
         if (_activeTowerPreview is null) return;
         
-        var previewPosition = new Vector3(mousePosition.x, mousePosition.y, -1f);
         _activeTowerPreview.transform.position = previewPosition;
         
         TowerValidator.transform.position = previewPosition;
@@ -52,13 +57,20 @@ public class TowerPlacement : MonoBehaviour
     }
     private void OnMouseUp()
     {
+        var shouldPlace = CanPlace;
+        
         _isDragging = false;
-        
-        var shouldPlace = CanPlace; 
-        
-        if (_activeTowerPreview is not null) { Destroy(_activeTowerPreview.gameObject); }
 
-        if (!shouldPlace) { ReturnToHand(); return; }
+        if (_activeTowerPreview is not null)
+        {
+            Destroy(_activeTowerPreview.gameObject);
+        }
+
+        if (!shouldPlace)
+        {
+            ReturnToHand(); 
+            return;
+        }
 
         PlaceTower();
     }
@@ -86,22 +98,23 @@ public class TowerPlacement : MonoBehaviour
         tower.GetComponent<TowerPreview>()?.SetPlaced();
         
         _spriteRenderer.color = Color.white;
-        DeckManager.Instance.AvailableCardSlots[handIndex] = true;
-        DeckManager.Instance.DrawCard();
+
         Stats.Instance.EnergyDeplete(cardData.energyMultiplier);
-        Invoke(nameof(MoveToDiscard), 1f);
+        OnCardPlayed?.Invoke(this);
     }
     
     private void ReturnToHand()
     {
         _spriteRenderer.enabled = true;
+        // TODO: link to event
         transform.position = DeckManager.Instance.cardSlots[handIndex].transform.position;
         _spriteRenderer.color = Color.white;
     }
 
     private void MoveToDiscard()
     {
-        DeckManager.Instance.AddToDiscard(this);
+        // TODO: link to event
+        OnCardDiscarded?.Invoke(this);
         gameObject.SetActive(false);
     }
 }
