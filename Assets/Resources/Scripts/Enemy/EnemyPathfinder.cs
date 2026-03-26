@@ -18,7 +18,7 @@ public class EnemyPathfinder : MonoBehaviour
     {
         if (transform.position != waypoints[_at].transform.position)
         {
-            var target = waypoints[_at].transform.position;
+            var target =  waypoints[_at].transform.position;
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * _speed);
         }
         else if (waypoints.Count > _at + 1)

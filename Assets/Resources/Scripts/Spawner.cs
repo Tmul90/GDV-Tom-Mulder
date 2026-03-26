@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     internal void SpawnEnemy()
     {
         var randomEnemyPrefab = Random.Range(0, enemyPrefabs.Length);
-        var enemyPrefab = Instantiate(
+        Instantiate(
             enemyPrefabs[randomEnemyPrefab], 
             new Vector3(spawnerLoc.transform.position.x, spawnerLoc.transform.position.y, -1f) , 
             spawnerLoc.transform.rotation

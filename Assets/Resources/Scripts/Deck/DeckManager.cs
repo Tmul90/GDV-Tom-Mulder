@@ -54,7 +54,6 @@ public class DeckManager : MonoBehaviour
             return;
         }
         
-        Debug.Log($"Drawing card: {data.cardName}");
         var card = Instantiate(cardPrefab, cardSlots[index]);
         card.transform.position = cardSlots[index].position;
         

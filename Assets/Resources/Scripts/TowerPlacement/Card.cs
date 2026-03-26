@@ -32,6 +32,7 @@ public class Card : MonoBehaviour
         _spriteRenderer ??= GetComponent<SpriteRenderer>();
 
         _spriteRenderer.sprite = data.cardArt;
+        _spriteRenderer.sortingOrder = 1;
     }
 
     private bool CanPlaceTower => _towerPlacementValidator != null && _towerPlacementValidator.IsValid && Stats.Instance.GetEnergy() > Data.energyMultiplier;
