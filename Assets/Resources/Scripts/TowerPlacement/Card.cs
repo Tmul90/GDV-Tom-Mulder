@@ -30,7 +30,7 @@ public class Card : MonoBehaviour
         
         // According to Rider this is the same as if (_spriteRenderer == null) thats cool to know
         _spriteRenderer ??= GetComponent<SpriteRenderer>();
-
+        
         _spriteRenderer.sprite = data.cardArt;
         _spriteRenderer.sortingOrder = 10;
     }
@@ -76,10 +76,11 @@ public class Card : MonoBehaviour
 
         if (!shouldPlace)
         {
-            OnCardDiscarded?.Invoke(this);
+            // TODO card should go back to its slot
             return;
         }
 
+        OnCardDiscarded?.Invoke(this);
         PlaceTower();
     }
     private void OnMouseEnter()
